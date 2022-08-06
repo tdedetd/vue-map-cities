@@ -1,9 +1,13 @@
 <script lang="ts">
-  import { CITIES } from '@/const/cities';
   import L from 'leaflet';
 
   export default {
+    props: {
+      cities: Object
+    },
     mounted() {
+      const vm = this;
+
       const map = L.map('map', {
         center: [59.95, 30.31667],
         zoom: 3
@@ -14,14 +18,14 @@
         attribution: '© OpenStreetMap'
       }).addTo(map);
 
-      CITIES.forEach(city => {
+      vm.cities.forEach(city => {
         L.marker([city.lat, city.lng], { alt: city.name })
          .bindTooltip(city.name)
          .addTo(map);
       });
 
-      map.fitBounds(CITIES.map(city => [city.lat, city.lng]));
-    }
+      map.fitBounds(vm.cities.map(city => [city.lat, city.lng]));
+    },
   };
 </script>
 
